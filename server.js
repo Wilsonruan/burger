@@ -34,7 +34,17 @@ connection.connect((err) => {
   console.log('Connected to MySQL!');
 });
 
-// Routes
+// Routes 
+// app.get  //Read
+// app.post //create
+// app.put //Update
+// app.delete //Delete
+app.get("/", function(req, res) {
+  res.render("index", );
+});
+
+
+
 app.get("/index", function(req, res) {
   res.render("index", );
 });
