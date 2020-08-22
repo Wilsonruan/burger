@@ -3,23 +3,23 @@
   <li>
     <p>
       {{this.id}}. {{this.burger_name}}
-      <button data-burger_nameid="{{this.id}}" class="delplan">Devour it!</button>
+      <button data-burger_nameid="{{this.id}}" class="delburger">Devour it!</button>
     </p>
   </li>
   {{/each}}
 </ul>
 
 <h2>Eat-Dat-Burger</h2>
-<form id="createplan" class="button-size">
-  <textarea type="text" name="plan"></textarea>
+<form id="createburger" class="button-size">
+  <textarea type="text" name="burger_name"></textarea>
   <button type="submit">Submit</button>
 </form>
 <h3>Enter a burger you want to east Click the "Submit" button.</h3>
 
 <script type="text/javascript">
-  $(".delplan").on("click", function(event) {
+  $(".delburger").on("click", function(event) {
     // Get the ID from the button.
-    // This is shorthand for $(this).attr("data-planid")
+    // This is shorthand for $(this).attr("data-burger_nameid")
     var id = $(this).data("burger_nameid");
 
     // Send the DELETE request.
@@ -34,19 +34,19 @@
     );
   });
 
-  $("#createplan").on("submit", function(event) {
+  $("#createburger").on("submit", function(event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
-    // [name=plan] will find an element with a "name" attribute equal to the string "plan"
-    var newPlan = {
-      burger_name: $("#createplan [name=plan]").val().trim()
+    // [name=burger_name] will find an element with a "name" attribute equal to the string "burger_name"
+    var newBurger = {
+      burger_name: $("#createburger [name=burger_name]").val().trim()
     };
 
     // Send the POST request.
     $.ajax("/api/burgers", {
       type: "POST",
-      data: newPlan
+      data: newBurger
     }).then(
       function() {
         console.log("Burger Name:");
