@@ -1,6 +1,5 @@
 // Dependencies
 var express = require("express");
-const mysql = require('mysql');
 var exphbs = require("express-handlebars");
 
 // Create an instance of the express app.
@@ -18,26 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-//Mysql connection
-const connection = mysql.createConnection({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: '',
-  database: 'burgers_db',
-});
-
-//Connection to MySQL Server
-connection.connect((err) => {
-  if (err) throw err;
-
-  console.log('Connected to MySQL!');
-});
-
 // Routes 
 // Use Handlebars to render the main index.html page with the burger in it.
-app.get("/", function(req, res) {
-  connection.query("SELECT * from burgers;", function(err, data) {
+app.get("/", function (req, res) {
+  connection.query("SELECT * from burgers;", function (err, data) {
     if (err) {
       return res.status(500).end();
     }
@@ -47,8 +30,8 @@ app.get("/", function(req, res) {
 });
 
 // Create a new burger
-app.post("/api/burgers", function(req, res) {
-  connection.query("INSERT INTO burgers (burger_name) VALUES (?)", [req.body.burger_name], function(err, result) {
+app.post("/api/burgers", function (req, res) {
+  connection.query("INSERT INTO burgers (burger_name) VALUES (?)", [req.body.burger_name], function (err, result) {
     if (err) {
       return res.status(500).end();
     }
@@ -60,8 +43,8 @@ app.post("/api/burgers", function(req, res) {
 });
 
 // Delete a burger
-app.delete("/api/burgers/:id", function(req, res) {
-  connection.query("DELETE FROM burgers WHERE id = ?", [req.params.id], function(err, result) {
+app.delete("/api/burgers/:id", function (req, res) {
+  connection.query("DELETE FROM burgers WHERE id = ?", [req.params.id], function (err, result) {
     if (err) {
       // If an error occurred, send a generic server failure
       return res.status(500).end();
@@ -77,7 +60,7 @@ app.delete("/api/burgers/:id", function(req, res) {
 
 
 // Start our server so that it can begin listening to client requests.
-app.listen(PORT, function() {
-    // Log (server-side) when our server has started
-    console.log("Server listening on: http://localhost:" + PORT);
-  });
+app.listen(PORT, function () {
+  // Log (server-side) when our server has started
+  console.log("Server listening on: http://localhost:" + PORT);
+});
