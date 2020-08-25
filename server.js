@@ -1,5 +1,6 @@
 // Dependencies
 var express = require("express");
+var mysql = require('mysql');
 var exphbs = require("express-handlebars");
 
 // Create an instance of the express app.
@@ -16,6 +17,22 @@ app.use(express.urlencoded({ extended: true }));
 // Set Handlebars as the default templating engine.
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
+//Mysql connection
+const connection = mysql.createConnection({
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: '',
+  database: 'burgers_db',
+});
+
+//Connection to MySQL Server
+connection.connect((err) => {
+  if (err) throw err;
+
+  console.log('Connected to MySQL!');
+});
 
 // Routes 
 // Use Handlebars to render the main index.html page with the burger in it.
