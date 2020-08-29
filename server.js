@@ -17,47 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// Routes 
-// Use Handlebars to render the main index.html page with the burger in it.
-app.get("/", function (req, res) {
-  connection.query("SELECT * from burgers;", function (err, data) {
-    if (err) {
-      return res.status(500).end();
-    }
+// Import routes and give the server access to them.
+var routes = require("./controllers/burgers_controller.js");
 
-    res.render("index", { burger: data });
-  });
-});
-
-// Create a new burger
-app.post("/api/burgers", function (req, res) {
-  connection.query("INSERT INTO burgers (burger_name) VALUES (?)", [req.body.burger_name], function (err, result) {
-    if (err) {
-      return res.status(500).end();
-    }
-
-    // Send back the ID of the new burger_name
-    res.json({ id: result.insertId });
-    console.log({ id: result.insertId });
-  });
-});
-
-// Delete a burger
-app.delete("/api/burgers/:id", function (req, res) {
-  connection.query("DELETE FROM burgers WHERE id = ?", [req.params.id], function (err, result) {
-    if (err) {
-      // If an error occurred, send a generic server failure
-      return res.status(500).end();
-    }
-    else if (result.affectedRows === 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
-    }
-    res.status(200).end();
-
-  });
-});
-
+app.use(routes);
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {
