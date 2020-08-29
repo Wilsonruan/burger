@@ -3,7 +3,8 @@
   <li>
     <p>
       {{this.id}}. {{this.burger_name}}
-      <button data-burger_nameid="{{this.id}}" class="delburger">Devour it!</button>
+      {{!-- <button data-burger_nameid="{{this.id}}" class="delburger">Devour it!</button> --}}
+      <button class="delburger" data-id="{{this.id}}">Devour it!</button>
     </p>
   </li>
   {{/each}}
@@ -20,7 +21,7 @@
   $(".delburger").on("click", function(event) {
     // Get the ID from the button.
     // This is shorthand for $(this).attr("data-burger_nameid")
-    var id = $(this).data("burger_nameid");
+    var id = $(this).data("id");
 
     // Send the DELETE request.
     $.ajax("/api/burgers/" + id, {
