@@ -1,12 +1,20 @@
+<h2>Burgers</h2>
+
 <ul>
   {{#each burger}}
-  <li>
-    <p>
-      {{this.id}}. {{this.burger_name}}
-      {{!-- <button data-burger_nameid="{{this.id}}" class="delburger">Devour it!</button> --}}
-      <button class="delburger" data-id="{{this.id}}">Devour it!</button>
-    </p>
-  </li>
+    {{#if devoured}}
+      {{> burgers/burgers-block devoured=false}}
+    {{/if}}
+  {{/each}}
+</ul>
+
+<h2>Devoured Burgers</h2>
+
+<ul>
+  {{#each burger}}
+    {{#unless devoured}}
+      {{> burgers/burgers-block devoured=true}}
+    {{/unless}}
   {{/each}}
 </ul>
 
@@ -17,18 +25,26 @@
 </form>
 <h3>Enter a burger you want to east Click the "Submit" button.</h3>
 
-<script type="text/javascript">
-  $(".delburger").on("click", function(event) {
-    // Get the ID from the button.
-    // This is shorthand for $(this).attr("data-burger_nameid")
-    var id = $(this).data("id");
+  <div class="form-group" style="display: none;">
+    <input type="radio" name="devoured" value="1" checked>
+  </div>
 
-    // Send the DELETE request.
+<script type="text/javascript">
+  $(".change-devour").on("click", function(event) {
+    var id = $(this).data("id");
+    var newDevour = $(this).data("newdevour");
+
+    var newDevourState = {
+      devoured: newDevour
+    };
+
+    // Send the PUT request.
     $.ajax("/api/burgers/" + id, {
-      type: "DELETE"
+      type: "PUT",
+      data: newDevourState
     }).then(
       function() {
-        console.log("deleted id ", id);
+        console.log("changed burger to", newDevour);
         // Reload the page to get the updated list
         location.reload();
       }
@@ -41,7 +57,8 @@
 
     // [name=burger_name] will find an element with a "name" attribute equal to the string "burger_name"
     var newBurger = {
-      burger_name: $("#createburger [name=burger_name]").val().trim()
+      burger_name: $("#createburger [name=burger_name]").val().trim(),
+      devoured: $("[name=devoured]:checked").val().trim()
     };
 
     // Send the POST request.
