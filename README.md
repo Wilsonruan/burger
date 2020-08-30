@@ -2,7 +2,8 @@
 # Eat Dat Burger
 
 ## Description:
-    This application can be used to POST, CREATE, and UPDATE burger's name with Node Express Handlebars.  
+
+This application can be used to POST, CREATE, and UPDATE burger's name with Node Express Handlebars.  
 
 ## Table of Contents
 
@@ -33,10 +34,12 @@
    - [ISC](https://choosealicense.com/licenses/isc/)
 
 ## Contributing:
-    This is my own
+
+This is my own
 
 ## Test:
-    Run the command : npm run test
+
+Run the command : npm run test
 
 ## Questions: 
   - Please feel free to contact for additional questions by email below: 
